@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Formulário de Contato";
+    Layout = "~/Views/Shared/Base/_LayoutBreadCrumbContent.cshtml";
+}
+@section breadcrumbs {
+    <div class="ui container">
+        <div class="ui grid stackable middle aligned centered">
+            <div class="row one column">
+                <div class="column">
+                    <h1>@ViewBag.Title</h1>
+                    <div class="ui breadcrumb text small uppercase">
+                        <a class="section" href="/">Home</a>
+                        <div class="divider"> / </div>
+                        <span class="active section">Formulário de Contato</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="ui grid midle aligned">
+    <div class="row">
+        <div class="twelve wide computer sixteen wide tablet sixteen wide mobile column">
+            <form class="ui large form" id="formContact">
+                <div class="ui segment">
+                    <div class="ui grid  very relaxed stackable grid left aligned">
+                        <div class="row two column">
+                            <div class="column">
+                                <div class="field required">
+                                    <label>Nome</label>
+                                    <div class="ui left icon input">
+                                        <i class="user icon"></i>
+                                        <input type="text" maxlength="100" name="Name" placeholder="Nome" value="" data-validate="name" value="" oninput="showValues(this.name, this.value)">
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label>E-mail</label>
+                                    <div class="ui left icon input">
+                                        <i class="mail icon"></i>
+                                        <input id="email" type="text" maxlength="100" name="Email" placeholder="E-mail" value="" data-validate="email"
+                                        oninput="showValues(this.name, this.value)">
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label>Telefone</label>
+                                    <div class="ui left icon input">
+                                        <i class="phone icon"></i>
+                                        <input type="text" name="Phone"
+                                            placeholder="(00) 00000-0000" class="masked mask_phone" data-validate="phone"
+                                            oninput="showValues(this.name, this.value)">
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label>Assunto</label>
+                                    <div class="ui left icon input">
+                                        <i class="mail icon"></i>
+                                        <input type="text" maxlength="100" name="Subject" placeholder="Assunto" data-validate="subject"
+                                        oninput="showValues(this.name, this.value)">
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label>Mensagem</label>
+                                    <textarea maxlength="6000" name="Message" data-validate="message" oninput="showValues(this.name, this.value)"></textarea>
+                                </div>
+                                <button type="submit" class="ui animated button large submit primary">
+                                    <div class="visible content">Enviar</div>
+                                    <div class="hidden content">
+                                        <i class="send icon"></i>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="column">
+                                <h5>Nome: <span id="Name"></span></h5>
+                                <h5>E-mail: <span id="Email"></span></h5>
+                                <h5>Telefone: <span id="Phone"></span></h5>
+                                <h5>Assunto: <span id="Subject"></span></h5>
+                                <h5>Mensagem: <span id="Message"></span></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section custom_js {
+    <script>
+        $(document).ready(function () {
+            var formData = sessionStorage.getItem('formContact');
+            if (formData !== null) {
+                JSON.parse(formData).forEach((data) => {
+                    $(`:input[name="${Object.keys(data)[0]}"]`).val(Object.values(data)[0]);
+                    $(`:input[name="${Object.keys(data)[0]}"]`).trigger("input");
+                })
+            }
+        })
+
+        $('#formContact').submit(function(e){
+            return false;
+        });
+
+    </script>
+}
